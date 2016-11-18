@@ -9,7 +9,7 @@ The user can then either:
 - input a target position where the robot has to go to. The robot then starts moving from its current position to that target position.
 - ask for exiting the program. The program immediately ends.
 
-If the robot moves it prints its current position (X, Y, Z,|v(t)|,time) in the terminal (at every iteration). Once it has reached the target position, the robot stops and alerts the user with a message in the terminal.
+If the robot moves it prints its current position (X, Y, Z, |v(t)|, time) in the terminal (at every iteration). Once it has reached the target position, the robot stops and alerts the user with a message in the terminal.
 
 
 ## run the program
