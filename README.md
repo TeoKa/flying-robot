@@ -25,3 +25,7 @@ Have Fun!
 
 
 ## References
+
+
+[Trajectory Planning of an End-Effector for Path with Loop]: http://ojs.sv-jme.eu/index.php/sv-jme/article/viewFile/sv-jme.2014.1965/707
+[Robotics: modelling, planning and control]: https://books.google.it/books?hl=it&lr=&id=jPCAFmE-logC&oi=fnd&pg=PR8&dq=robotics+siciliano&ots=3UPr3jLvDt&sig=OfaLJUdGFDj4bFuGryUhKAHT7X4#v=onepage&q=robotics%20siciliano&f=false
