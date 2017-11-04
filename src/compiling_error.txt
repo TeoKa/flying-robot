@@ -1,0 +1,4 @@
+/Users/matteo_ciocca/git_projects/flying-robot/src/main.cpp:11:10: fatal error: 'robot.hpp' file not found
+#include "robot.hpp"
+         ^
+1 error generated.
