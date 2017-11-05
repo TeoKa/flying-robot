@@ -25,14 +25,13 @@
 
 
 // Dispaly the position of the flying machine.
-void display(robot* flying_machine, trajectory_planner* planner, double t_current){
+void display(robot& machine, trajectory_planner* planner, double t_current){
 
     // Display robot's status and more
     double vel_robot;
 
-    vel_robot = planner->abs_velocity(flying_machine->get_dx(),flying_machine->get_dy(),flying_machine->get_dz());
-    cout<<setprecision(3)<<"x  : "<<flying_machine->get_x()<<" y : "<<flying_machine->get_y()<<" z : "<<flying_machine->get_z();
-//    cout<<setprecision(3)<<" | dx : "<<flying_machine->get_dx()<<" dy: "<<flying_machine->get_dy()<<" dz: "<<flying_machine->get_dz()<<" | abs_vel: "<<vel_robot<<" | time : "<<t_current<<"\n";
+    vel_robot = planner->abs_velocity(machine.get_dx(),machine.get_dy(),machine.get_dz());
+    cout<<setprecision(3)<<"x  : "<<machine.get_x()<<" y : "<<machine.get_y()<<" z : "<<machine.get_z();
     cout<<setprecision(3)<<" | abs_vel: "<<vel_robot<<" | time : "<<t_current<<"\n";
 
     return;
@@ -62,52 +61,57 @@ int main(int argc, const char * argv[]) {
 
     // Creating an object of robot and trajectory_planner class
     robot machine(xi,yi,zi,0,0,0);
-    robot* flying_machine = &machine;
     trajectory_planner planner_mind;
     trajectory_planner* planner = &planner_mind;
 
     cout<<"=== Flying machine placed in space ===="<<endl;
 
-    while(v_max<=0){
-    // Define the Max velocity
-    cout<<"Set maximum velocity of the flying machine (positive number): ";
-    cin>>v_max;
+    while(v_max<=0)
+    {
+      // Define the Max velocity
+      cout<<"Set maximum velocity of the flying machine (positive number): ";
+      cin>>v_max;
     }
-    while(dt<=0){
-    // Define the Time Step
-    cout<<"Set time step of the simulation (positive number): ";
-    cin>>dt;
+    while(dt<=0)
+    {
+      // Define the Time Step
+      cout<<"Set time step of the simulation (positive number): ";
+      cin>>dt;
     }
     cout<<"=== Selected max vel and time step ===="<<endl;
 
     cout<<"Max Velocity: "<<v_max<<" | Time Step: "<<dt<<endl;
     cout<<"Flying machine state: "<<endl;
-    display(flying_machine,planner,0);
+    display(machine,planner,0);
 
 
     // Begin of the simulation
 
-    while(1){
+    while(1)
+    {
         // reset the simulation time to 0.0
         t_current = 0.0;
         quit_program = -1;
         cout<<"=========== New Simulation ============"<<endl;
 
-        while (quit_program!=0 && quit_program!=1) {
-        //        Declare what-to-do
-            cout<<"Quit the program (1) or Move the robot (0): ";
-            cin>>quit_program;
+        while (quit_program!=0 && quit_program!=1)
+        {
+              // Declare what-to-do
+              cout<<"Quit the program (1) or Move the robot (0): ";
+              cin>>quit_program;
         }
-        //        Condition: Exit
-        if(quit_program == 1){
+
+        // Condition: Exit
+        if(quit_program == 1)
+        {
             cout<<"Exit the program\n\n\n";
             break;
         }
 
         // Get initial position: position of the flying machine
-        xi = flying_machine->get_x();
-        yi = flying_machine->get_y();
-        zi = flying_machine->get_z();
+        xi = machine.get_x();
+        yi = machine.get_y();
+        zi = machine.get_z();
 
         // Define a Target position in the 3D space
         cout<<"Set target x position of the flying machine: ";
@@ -131,17 +135,17 @@ int main(int argc, const char * argv[]) {
 
         // Running the simulation
         cout<<"======== Display Iterations ==========="<<endl;
-        while(t_current < t_end){
-            flying_machine->move(t_current,t_end,p,xt,yt,zt,xi,yi,zi,planner);
-            display(flying_machine,planner,t_current);
+        while(t_current < t_end)
+        {
+            machine.move(t_current,t_end,p,xt,yt,zt,xi,yi,zi,planner);
+            display(machine,planner,t_current);
             t_current += dt;
         }
 
         // show the results.
         cout<<"============ Results =================="<<endl;
-        cout<<"Initial Position: "<<"("<<xi<<";"<<yi<<";"<<zi<<")"<<"| Current Position: "<<"("<<flying_machine->get_x()<<";"<<flying_machine->get_y()<<";"<<flying_machine->get_z()<<")"<<" | Target Position: "<<"("<<xt<<";"<<yt<<";"<<zt<<")"<<endl;
+        cout<<"Initial Position: "<<"("<<xi<<";"<<yi<<";"<<zi<<")"<<"| Current Position: "<<"("<<machine.get_x()<<";"<<machine.get_y()<<";"<<machine.get_z()<<")"<<" | Target Position: "<<"("<<xt<<";"<<yt<<";"<<zt<<")"<<endl;
         cout<<"Max Velocity: "<<v_max<<" | Time Step: "<<dt<<endl;
-
     }
     return 0;
 
