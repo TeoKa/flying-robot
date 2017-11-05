@@ -12,7 +12,7 @@ The user can then either:
 If the robot moves it prints its current position (X, Y, Z, |v(t)|, time) in the terminal (at every iteration). Once it has reached the target position, the robot stops and alerts the user with a message in the terminal.
 
 
-## Run the program
+## Installation
 <!-- alt+9 = ` -->
 ```
 git clone https://github.com/TeoKa/flying-robot.git
