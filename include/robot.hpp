@@ -21,13 +21,15 @@ class robot {
 
 public:
 
+
+    // @brief Constructor: place (initialize) the robot in the space
+    robot(double x,double y,double z,double dx,double dy,double dz);
+
+    // @brief Deconstructor
+    virtual ~robot() {}
+
     // Get the target and call polynomial_position to move the robot: set his new coordinate
     void move(double dt,double t_end,double p,double xt,double yt,double zt,double xi,double yi,double zi,trajectory_planner* planner);
-
-
-    // Place (initialize) the robot in the space
-    robot(double x,double y,double z,double dx,double dy,double dz)
-    : pos_x(x), pos_y(y), pos_z(z), vel_x(dx), vel_y(dy), vel_z(dz) {}
 
 
     //    In order to access to the private members of robot
@@ -39,12 +41,12 @@ public:
     double get_dz();
 
 private:
-    double pos_x;
-    double pos_y;
-    double pos_z;
-    double vel_x;
-    double vel_y;
-    double vel_z;
+    double x_;
+    double y_;
+    double z_;
+    double dx_;
+    double dy_;
+    double dz_;
 };
 
 #endif /* robot_hpp */

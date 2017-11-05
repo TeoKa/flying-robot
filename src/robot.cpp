@@ -18,25 +18,27 @@
 
 
 double robot::get_x(){
-    return pos_x;
+    return x_;
 }
 double robot::get_y(){
-    return pos_y;
+    return y_;
 }
 double robot::get_z(){
-    return pos_z;
+    return z_;
 }
 double robot::get_dx(){
-    return vel_x;
+    return dx_;
 }
 double robot::get_dy(){
-    return vel_y;
+    return dy_;
 }
 double robot::get_dz(){
-    return vel_z;
+    return dz_;
 }
 
 
+robot::robot(double x,double y,double z,double dx,double dy,double dz)
+: x_(x), y_(y), z_(z), dx_(dx), dy_(dy), dz_(dz) {}
 
 void robot::move(double dt,double t_end,double p,double xt,double yt,double zt,double xi,double yi,double zi,trajectory_planner* planner){
 
@@ -52,14 +54,14 @@ void robot::move(double dt,double t_end,double p,double xt,double yt,double zt,d
     // From a polynomial time-law to a trajectory in the 3D space, w.r.t. three components (px,py,pz). In this case a rectilinear path in the 3D space (pag. 182 of [2]).
 
     // position
-    pos_x = xi + d_pos*(xt-xi)/abs_f_i;
-    pos_y = yi + d_pos*(yt-yi)/abs_f_i;
-    pos_z = zi + d_pos*(zt-zi)/abs_f_i;
+    x_ = xi + d_pos*(xt-xi)/abs_f_i;
+    y_ = yi + d_pos*(yt-yi)/abs_f_i;
+    z_ = zi + d_pos*(zt-zi)/abs_f_i;
 
     // velocity
-    vel_x = d_vel*(xt-xi)/abs_f_i;
-    vel_y = d_vel*(yt-yi)/abs_f_i;
-    vel_z = d_vel*(zt-zi)/abs_f_i;
+    dx_ = d_vel*(xt-xi)/abs_f_i;
+    dy_ = d_vel*(yt-yi)/abs_f_i;
+    dz_ = d_vel*(zt-zi)/abs_f_i;
 
     return;
 
