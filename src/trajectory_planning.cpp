@@ -15,7 +15,13 @@
 #include <stdio.h>
 #include <iomanip>
 
-double trajectory_planner::polynomial_position(double dt,double t_end,double p){
+
+
+trajectory_planner::trajectory_planner() : xi_(0), yi_(0), zi_(0),
+                                           xf_(0), yf_(0), zf_(0) {}
+
+
+double trajectory_planner::deltaPolynomialPosition(double dt,double t_end,double p){
 
     // 9th order polynomial trajectory as in [1] Eq. (3)
 
@@ -33,7 +39,7 @@ double trajectory_planner::polynomial_position(double dt,double t_end,double p){
     return d_pos;
 }
 
-double trajectory_planner::polynomial_velocity(double dt,double t_end,double p){
+double trajectory_planner::deltaPolynomialVelocity(double dt,double t_end,double p){
 
     // 8th order polynomial velocity as in [1] Eq. (2)
 
@@ -50,28 +56,48 @@ double trajectory_planner::polynomial_velocity(double dt,double t_end,double p){
     return d_vel;
 }
 
-double trajectory_planner::abs_velocity(double vx, double vy,double vz){
+double trajectory_planner::deltaSpace(){
 
-    // Calculate the absolute velocity: |v(t)| < v_max
-
-    double abs_vel;
-
-    abs_vel = sqrt( pow(vx,2) + pow(vy,2) + pow(vz,2) );
-
-    return abs_vel;
+    return sqrt( pow(xf_-xi_,2)+pow(yf_-yi_,2)+pow(zf_-zi_,2) );
 }
 
 
-double trajectory_planner::delta_space_f_i(double xf, double yf,double zf,double xi,double yi,double zi){
-    
+// Get waypoints
+double trajectory_planner::Xi()
+{
+  return xi_;
+}
+double trajectory_planner::Yi()
+{
+  return yi_;
+}
+double trajectory_planner::Zi()
+{
+  return zi_;
+}
+double trajectory_planner::Xf()
+{
+  return xf_;
+}
+double trajectory_planner::Yf()
+{
+  return yf_;
+}
+double trajectory_planner::Zf()
+{
+  return zf_;
+}
 
-    double abs_f_i,delta_x,delta_y,delta_z;
-
-    delta_x = xf - xi;
-    delta_y = yf - yi;
-    delta_z = zf - zi;
-
-    abs_f_i = sqrt( pow(delta_x,2)+pow(delta_y,2)+pow(delta_z,2) );
-
-    return abs_f_i;
+// Set waypoints
+void trajectory_planner::SetXYZi(double x, double y, double z)
+{
+  xi_ = x;
+  yi_ = y;
+  zi_ = z;
+}
+void trajectory_planner::SetXYZf(double x, double y, double z)
+{
+  xf_ = x;
+  yf_ = y;
+  zf_ = z;
 }

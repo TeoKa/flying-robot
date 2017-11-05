@@ -16,19 +16,42 @@
 using namespace std;
 
 class trajectory_planner {
-    
+
 public:
-    
+
+    // @brief Constructor: place (initialize) the robot in the space
+    trajectory_planner();
+
+    // @brief Deconstructor
+    virtual ~trajectory_planner() {}
+
     // Compute a single step of position, given a time step dt.
-    double polynomial_position(double dt,double t_end,double p);
-    
+    double deltaPolynomialPosition(double dt,double t_end,double p);
+
     // Compute a single step of velocity, given a time step dt.
-    double polynomial_velocity(double dt,double t_end,double p);
-    
-    // Compute abs velocity given (vx,vy,vz).
-    double abs_velocity(double vx, double vy,double vz);
-    
-    double delta_space_f_i(double xf, double yf,double zf,double xi,double yi,double zi);
+    double deltaPolynomialVelocity(double dt,double t_end,double p);
+
+    double deltaSpace();
+
+    // Get waypoints
+    double Xi();
+    double Yi();
+    double Zi();
+    double Xf();
+    double Yf();
+    double Zf();
+
+    // Set waypoints
+    void SetXYZi(double x, double y, double z);
+    void SetXYZf(double x, double y, double z);
+
+private:
+    double xi_;
+    double yi_;
+    double zi_;
+    double xf_;
+    double yf_;
+    double zf_;
 
 };
 

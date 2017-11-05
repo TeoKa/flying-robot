@@ -16,6 +16,7 @@
 #include <stdio.h>
 #include <iomanip>
 
+using namespace std;
 
 // The algorithm uses the 9th order polynomial trajectory presented in [1] and the parametric representation of a segment in space as in [2].
 // In the code, the references will be cited where needed.
@@ -25,11 +26,11 @@
 
 
 // Dispaly the position of the flying machine.
-void display(robot& machine,double t_current, double vel_robot){
+void display(robot& flying_machine,double t_current){
 
     // Display robot's status and more
-    cout<<setprecision(3)<<"x  : "<<machine.x()<<" y : "<<machine.y()<<" z : "<<machine.z();
-    cout<<setprecision(3)<<" | abs_vel: "<<vel_robot<<" | time : "<<t_current<<"\n";
+    cout<<setprecision(3)<<"x  : "<<flying_machine.x()<<" y : "<<flying_machine.y()<<" z : "<<flying_machine.z();
+    cout<<setprecision(3)<<" | abs_vel: "<<flying_machine.absVelocity()<<" | time : "<<t_current<<"\n";
 
     return;
 }
@@ -38,49 +39,49 @@ int main(int argc, const char * argv[]) {
 
     double xt,yt,zt;                        // target position coordinates
     double xi,yi,zi;                        // initial position coordinates
-    double v_max=-1, dS, t_end, p;          // polynomial parameters
+    double v_max=-1, t_end, p;              // polynomial parameters
     double dt=-1,t_current;                 // time parameters
     int quit_program=-1;                    // handle the simulation
-    double vel_robot;                       // current robot velocity
-
 
 
     cout<<"\n\n";
     cout<<"======== Flying machine Program ======="<<endl;
 
     // positioning in space the flying machine
-    cout<<"Initial x position of the flying machine (real number): ";
-    cin>>xi;
-    cout<<"Initial y position of the flying machine (real number): ";
-    cin>>yi;
-    cout<<"Initial z position of the flying machine (real number): ";
-    cin>>zi;
+    std::cout << "Initial x position of the flying machine (real number): ";
+    std::cin  >> xi;
+    std::cout << "Initial y position of the flying machine (real number): ";
+    std::cin  >> yi;
+    std::cout << "Initial z position of the flying machine (real number): ";
+    std::cin  >> zi;
 
 
     // Creating an object of robot and trajectory_planner class
-    robot machine(xi,yi,zi,0,0,0);
-    trajectory_planner planner_mind;
-    trajectory_planner* planner = &planner_mind;
+    robot flying_machine(xi,yi,zi,0,0,0);
+    trajectory_planner planner;
 
-    cout<<"=== Flying machine placed in space ===="<<endl;
 
-    while(v_max<=0)
+    std::cout << "=== Flying machine placed in space ====" << endl;
+
+    while( v_max <= 0 )
     {
       // Define the Max velocity
-      cout<<"Set maximum velocity of the flying machine (positive number): ";
-      cin>>v_max;
+      std::cout << "Set maximum velocity of the flying machine (positive number): ";
+      std::cin  >> v_max;
     }
-    while(dt<=0)
+
+    while( dt <= 0 )
     {
       // Define the Time Step
-      cout<<"Set time step of the simulation (positive number): ";
-      cin>>dt;
+      std::cout << "Set time step of the simulation (positive number): ";
+      std::cin  >> dt;
     }
-    cout<<"=== Selected max vel and time step ===="<<endl;
 
-    cout<<"Max Velocity: "<<v_max<<" | Time Step: "<<dt<<endl;
-    cout<<"Flying machine state: "<<endl;
-    display(machine,0,0);
+    std::cout << "=== Selected max vel and time step ===="<<endl;
+
+    std::cout << "Max Velocity: " << v_max << " | Time Step: " << dt <<endl;
+    std::cout << "Flying machine state: "<<endl;
+    display(flying_machine,0);
 
 
     // Begin of the simulation
@@ -90,66 +91,66 @@ int main(int argc, const char * argv[]) {
         // reset the simulation time to 0.0
         t_current = 0.0;
         quit_program = -1;
-        cout<<"=========== New Simulation ============"<<endl;
+        std::cout << "=========== New Simulation ============"<<endl;
 
         while (quit_program!=0 && quit_program!=1)
         {
               // Declare what-to-do
-              cout<<"Quit the program (1) or Move the robot (0): ";
-              cin>>quit_program;
+              std::cout << "Quit the program (1) or Move the robot (0): ";
+              std::cin  >> quit_program;
         }
 
         // Condition: Exit
         if(quit_program == 1)
         {
-            cout<<"Exit the program\n\n\n";
+            std::cout << "Exit the program..\n..Thanks for playing\n\n";
             break;
         }
 
         // Get initial position: position of the flying machine
-        xi = machine.x();
-        yi = machine.y();
-        zi = machine.z();
+        planner.SetXYZi(flying_machine.x(),flying_machine.y(),flying_machine.z());
 
         // Define a Target position in the 3D space
-        cout<<"Set target x position of the flying machine: ";
-        cin>>xt;
-        cout<<"Set target y position of the flying machine: ";
-        cin>>yt;
-        cout<<"Set target z position of the flying machine: ";
-        cin>>zt;
+        std::cout << "Set target x position of the flying machine: ";
+        std::cin  >> xt;
+        std::cout << "Set target y position of the flying machine: ";
+        std::cin  >> yt;
+        std::cout << "Set target z position of the flying machine: ";
+        std::cin  >> zt;
 
         // Dispaly Information
-        cout<<"Current Position: "<<"("<<xi<<";"<<yi<<";"<<zi<<")"<<" | Target Position: "<<"("<<xt<<";"<<yt<<";"<<zt<<")"<<endl;
+        std::cout << "Current Position: (" << flying_machine.x() << ";"
+            << flying_machine.y() << ";" << flying_machine.z() << ")"
+            << " | Target Position: (" << xt << ";" << yt << ";" << zt << ")" <<endl;
 
-        // Equation (6) of [1]. Terms used to generate a 9th order polynomial trajectory in the 3D space.
-        dS      = planner_mind.delta_space_f_i(xt,yt,zt,xi,yi,zi);
-        t_end   = 1.6406 * (dS/v_max);
+        planner.SetXYZf(xt,yt,zt);
+
+        // Equation (6) of [1]. Terms used to generate
+        // a 9th order polynomial trajectory in the 3D space.
+        t_end   = 1.6406 * (planner.deltaSpace()/v_max);
         p       = 6144   * v_max/pow(t_end,8);
 
         // Show polynomial parameter
-        cout<<"Distance: "<<dS<<" | Time to travel: "<<t_end<<" | p coefficient: "<<p<<endl;
-
+        std::cout << "Distance: " << planner.deltaSpace()
+            << " | Time to travel: " << t_end << " | p coefficient: " << p <<endl;
 
         // Running the simulation
-        cout<<"======== Display Iterations ==========="<<endl;
+        std::cout << "======== Display Iterations ===========" <<endl;
         while(t_current < t_end)
         {
-            
-            machine.move(t_current,t_end,p,xt,yt,zt,xi,yi,zi,planner_mind);
-            vel_robot = planner_mind.abs_velocity(machine.dx(),machine.dy(),machine.dz());
-            display(machine,t_current,vel_robot);
+            flying_machine.move(t_current,t_end,p,planner);
+            display(flying_machine,t_current);
             t_current += dt;
         }
 
         // show the results.
-        cout<<"============ Results =================="<<endl;
-        cout<<"Initial Position: "<<"("<<xi<<";"<<yi<<";"<<zi<<")"
-        <<"| Current Position: "<<"("<<machine.x()<<";"<<machine.y()<<";"
-        <<machine.z()<<")"<<" | Target Position: "<<"("<<xt<<";"<<yt<<";"
-        <<zt<<")"<<endl;
+        std::cout << "============ Results =================="<<endl;
+        std::cout << "Initial Position: (" << xi << ";" << yi << ";" << zi << ")"
+        << "| Current Position: " << "(" << flying_machine.x()
+        << ";" << flying_machine.y() << ";" << flying_machine.z() << ")"
+        << " | Target Position: " << "(" << xt << ";" << yt << ";"<< zt << ")" <<endl;
 
-        cout<<"Max Velocity: "<<v_max<<" | Time Step: "<<dt<<endl;
+        std::cout << "Max Velocity: " << v_max << " | Time Step: " << dt <<endl;
     }
     return 0;
 

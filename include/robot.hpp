@@ -27,8 +27,9 @@ public:
     // @brief Deconstructor
     virtual ~robot() {}
 
-    // Get the target and call polynomial_position to move the robot: set his new coordinate
-    void move(double dt,double t_end,double p,double xt,double yt,double zt,double xi,double yi,double zi,trajectory_planner& planner);
+    // Get the target and call polynomial_position to move the robot:
+    // set his new coordinate
+    void move(double dt,double t_end,double p,trajectory_planner& planner);
 
 
     // Get Methods
@@ -38,6 +39,7 @@ public:
     double dx();
     double dy();
     double dz();
+    double absVelocity();
 
     // Set Methods
     void SetPosition(double x, double y, double z);
@@ -53,6 +55,3 @@ private:
 };
 
 #endif /* robot_hpp */
-
-
-//    int polynomial_acceleration(int dt,int ddx);
