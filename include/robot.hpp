@@ -21,7 +21,6 @@ class robot {
 
 public:
 
-
     // @brief Constructor: place (initialize) the robot in the space
     robot(double x,double y,double z,double dx,double dy,double dz);
 
@@ -29,16 +28,20 @@ public:
     virtual ~robot() {}
 
     // Get the target and call polynomial_position to move the robot: set his new coordinate
-    void move(double dt,double t_end,double p,double xt,double yt,double zt,double xi,double yi,double zi,trajectory_planner* planner);
+    void move(double dt,double t_end,double p,double xt,double yt,double zt,double xi,double yi,double zi,trajectory_planner& planner);
 
 
-    //    In order to access to the private members of robot
-    double get_x();
-    double get_y();
-    double get_z();
-    double get_dx();
-    double get_dy();
-    double get_dz();
+    // Get Methods
+    double x();
+    double y();
+    double z();
+    double dx();
+    double dy();
+    double dz();
+
+    // Set Methods
+    void SetPosition(double x, double y, double z);
+    void SetVelocity(double dx, double dy, double dz);
 
 private:
     double x_;

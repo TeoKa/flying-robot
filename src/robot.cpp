@@ -17,52 +17,66 @@
 
 
 
-double robot::get_x(){
-    return x_;
-}
-double robot::get_y(){
-    return y_;
-}
-double robot::get_z(){
-    return z_;
-}
-double robot::get_dx(){
-    return dx_;
-}
-double robot::get_dy(){
-    return dy_;
-}
-double robot::get_dz(){
-    return dz_;
-}
-
-
 robot::robot(double x,double y,double z,double dx,double dy,double dz)
 : x_(x), y_(y), z_(z), dx_(dx), dy_(dy), dz_(dz) {}
 
-void robot::move(double dt,double t_end,double p,double xt,double yt,double zt,double xi,double yi,double zi,trajectory_planner* planner){
+void robot::move(double dt,double t_end,double p,double xt,double yt,double zt,double xi,double yi,double zi,trajectory_planner& planner){
 
     double d_pos;
     double d_vel;
     double abs_f_i;
 
-    d_pos = planner->polynomial_position(dt,t_end,p);
-    d_vel = planner->polynomial_velocity(dt,t_end,p);
+    d_pos = planner.polynomial_position(dt,t_end,p);
+    d_vel = planner.polynomial_velocity(dt,t_end,p);
 
-    abs_f_i = planner->delta_space_f_i(xt,yt,zt,xi,yi,zi);
+    abs_f_i = planner.delta_space_f_i(xt,yt,zt,xi,yi,zi);
 
     // From a polynomial time-law to a trajectory in the 3D space, w.r.t. three components (px,py,pz). In this case a rectilinear path in the 3D space (pag. 182 of [2]).
 
     // position
-    x_ = xi + d_pos*(xt-xi)/abs_f_i;
-    y_ = yi + d_pos*(yt-yi)/abs_f_i;
-    z_ = zi + d_pos*(zt-zi)/abs_f_i;
+    SetPosition(xi + d_pos*(xt-xi)/abs_f_i,
+                yi + d_pos*(yt-yi)/abs_f_i,
+                zi + d_pos*(zt-zi)/abs_f_i);
 
     // velocity
-    dx_ = d_vel*(xt-xi)/abs_f_i;
-    dy_ = d_vel*(yt-yi)/abs_f_i;
-    dz_ = d_vel*(zt-zi)/abs_f_i;
+    SetVelocity(d_vel*(xt-xi)/abs_f_i,
+                d_vel*(yt-yi)/abs_f_i,
+                d_vel*(zt-zi)/abs_f_i);
 
-    return;
+}
 
+
+// Set Methods
+void robot::SetPosition(double x, double y, double z)
+{
+    x_ = x;
+    y_ = y;
+    z_ = z;
+}
+
+void robot::SetVelocity(double dx, double dy, double dz)
+{
+  dx_ = dx;
+  dy_ = dy;
+  dz_ = dz;
+}
+
+// Get functions
+double robot::x(){
+    return x_;
+}
+double robot::y(){
+    return y_;
+}
+double robot::z(){
+    return z_;
+}
+double robot::dx(){
+    return dx_;
+}
+double robot::dy(){
+    return dy_;
+}
+double robot::dz(){
+    return dz_;
 }

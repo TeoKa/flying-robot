@@ -25,13 +25,10 @@
 
 
 // Dispaly the position of the flying machine.
-void display(robot& machine, trajectory_planner* planner, double t_current){
+void display(robot& machine,double t_current, double vel_robot){
 
     // Display robot's status and more
-    double vel_robot;
-
-    vel_robot = planner->abs_velocity(machine.get_dx(),machine.get_dy(),machine.get_dz());
-    cout<<setprecision(3)<<"x  : "<<machine.get_x()<<" y : "<<machine.get_y()<<" z : "<<machine.get_z();
+    cout<<setprecision(3)<<"x  : "<<machine.x()<<" y : "<<machine.y()<<" z : "<<machine.z();
     cout<<setprecision(3)<<" | abs_vel: "<<vel_robot<<" | time : "<<t_current<<"\n";
 
     return;
@@ -44,6 +41,7 @@ int main(int argc, const char * argv[]) {
     double v_max=-1, dS, t_end, p;          // polynomial parameters
     double dt=-1,t_current;                 // time parameters
     int quit_program=-1;                    // handle the simulation
+    double vel_robot;                       // current robot velocity
 
 
 
@@ -82,7 +80,7 @@ int main(int argc, const char * argv[]) {
 
     cout<<"Max Velocity: "<<v_max<<" | Time Step: "<<dt<<endl;
     cout<<"Flying machine state: "<<endl;
-    display(machine,planner,0);
+    display(machine,0,0);
 
 
     // Begin of the simulation
@@ -109,9 +107,9 @@ int main(int argc, const char * argv[]) {
         }
 
         // Get initial position: position of the flying machine
-        xi = machine.get_x();
-        yi = machine.get_y();
-        zi = machine.get_z();
+        xi = machine.x();
+        yi = machine.y();
+        zi = machine.z();
 
         // Define a Target position in the 3D space
         cout<<"Set target x position of the flying machine: ";
@@ -125,7 +123,7 @@ int main(int argc, const char * argv[]) {
         cout<<"Current Position: "<<"("<<xi<<";"<<yi<<";"<<zi<<")"<<" | Target Position: "<<"("<<xt<<";"<<yt<<";"<<zt<<")"<<endl;
 
         // Equation (6) of [1]. Terms used to generate a 9th order polynomial trajectory in the 3D space.
-        dS      = planner->delta_space_f_i(xt,yt,zt,xi,yi,zi);
+        dS      = planner_mind.delta_space_f_i(xt,yt,zt,xi,yi,zi);
         t_end   = 1.6406 * (dS/v_max);
         p       = 6144   * v_max/pow(t_end,8);
 
@@ -137,14 +135,20 @@ int main(int argc, const char * argv[]) {
         cout<<"======== Display Iterations ==========="<<endl;
         while(t_current < t_end)
         {
-            machine.move(t_current,t_end,p,xt,yt,zt,xi,yi,zi,planner);
-            display(machine,planner,t_current);
+            
+            machine.move(t_current,t_end,p,xt,yt,zt,xi,yi,zi,planner_mind);
+            vel_robot = planner_mind.abs_velocity(machine.dx(),machine.dy(),machine.dz());
+            display(machine,t_current,vel_robot);
             t_current += dt;
         }
 
         // show the results.
         cout<<"============ Results =================="<<endl;
-        cout<<"Initial Position: "<<"("<<xi<<";"<<yi<<";"<<zi<<")"<<"| Current Position: "<<"("<<machine.get_x()<<";"<<machine.get_y()<<";"<<machine.get_z()<<")"<<" | Target Position: "<<"("<<xt<<";"<<yt<<";"<<zt<<")"<<endl;
+        cout<<"Initial Position: "<<"("<<xi<<";"<<yi<<";"<<zi<<")"
+        <<"| Current Position: "<<"("<<machine.x()<<";"<<machine.y()<<";"
+        <<machine.z()<<")"<<" | Target Position: "<<"("<<xt<<";"<<yt<<";"
+        <<zt<<")"<<endl;
+
         cout<<"Max Velocity: "<<v_max<<" | Time Step: "<<dt<<endl;
     }
     return 0;
