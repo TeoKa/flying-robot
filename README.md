@@ -17,6 +17,7 @@ If the robot moves it prints its current position (X, Y, Z, |v(t)|, time) in the
 ```
 git clone https://github.com/TeoKa/flying-robot.git
 cd flying-robot/
+mkdir build
 cd build/
 cmake ..
 make
