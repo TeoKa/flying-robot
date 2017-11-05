@@ -36,9 +36,6 @@ double robot::get_dz(){
     return vel_z;
 }
 
-// Used to place (initialize) the robot in the space
-void robot::place(double x,double y,double z,double dx,double dy,double dz)
-  : pos_x(x), pos_y(y), pos_z(z), vel_x(dx), vel_y(dy), vel_z(dz) {}
 
 
 void robot::move(double dt,double t_end,double p,double xt,double yt,double zt,double xi,double yi,double zi,trajectory_planner* planner){

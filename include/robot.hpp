@@ -20,14 +20,16 @@ using namespace std;
 class robot {
 
 public:
-    
+
     // Get the target and call polynomial_position to move the robot: set his new coordinate
     void move(double dt,double t_end,double p,double xt,double yt,double zt,double xi,double yi,double zi,trajectory_planner* planner);
-    
-    
+
+
     // Place (initialize) the robot in the space
-    void place(double x,double y,double z,double dx,double dy,double dz);
-        
+    robot(double x,double y,double z,double dx,double dy,double dz)
+    : pos_x(x), pos_y(y), pos_z(z), vel_x(dx), vel_y(dy), vel_z(dz) {}
+
+
     //    In order to access to the private members of robot
     double get_x();
     double get_y();

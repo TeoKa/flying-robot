@@ -46,11 +46,7 @@ int main(int argc, const char * argv[]) {
     double dt=-1,t_current;                 // time parameters
     int quit_program=-1;                    // handle the simulation
 
-    // Creating an object of robot and trajectory_planner class
-    robot machine;
-    robot* flying_machine = &machine;
-    trajectory_planner planner_mind;
-    trajectory_planner* planner = &planner_mind;
+
 
     cout<<"\n\n";
     cout<<"======== Flying machine Program ======="<<endl;
@@ -63,7 +59,12 @@ int main(int argc, const char * argv[]) {
     cout<<"Initial z position of the flying machine (real number): ";
     cin>>zi;
 
-    flying_machine->place(xi,yi,zi,0,0,0);
+
+    // Creating an object of robot and trajectory_planner class
+    robot machine(xi,yi,zi,0,0,0);
+    robot* flying_machine = &machine;
+    trajectory_planner planner_mind;
+    trajectory_planner* planner = &planner_mind;
 
     cout<<"=== Flying machine placed in space ===="<<endl;
 

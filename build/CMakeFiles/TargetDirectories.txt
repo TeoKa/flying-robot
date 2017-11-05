@@ -1,3 +1,0 @@
-/Users/matteo_ciocca/git_projects/flying-robot/build/CMakeFiles/rebuild_cache.dir
-/Users/matteo_ciocca/git_projects/flying-robot/build/CMakeFiles/edit_cache.dir
-/Users/matteo_ciocca/git_projects/flying-robot/build/CMakeFiles/flyingRobot.dir
