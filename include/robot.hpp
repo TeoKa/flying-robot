@@ -6,8 +6,14 @@
 //  Copyright © 2016 Matteo Ciocca. All rights reserved.
 //
 
-#ifndef robot_hpp
-#define robot_hpp
+
+#pragma once
+// specifies that the file will be included (opened) only once by the compiler
+// when compiling a source code file.
+
+// Alternatively uses
+/* #ifndef robot_hpp
+   #define robot_hpp */
 
 #include "trajectory_planning.hpp"
 
@@ -15,7 +21,9 @@
 #include <iostream>
 
 
-using namespace std;
+
+namespace machine
+{
 
 class robot {
 
@@ -29,7 +37,7 @@ public:
 
     // Get the target and call polynomial_position to move the robot:
     // set his new coordinate
-    void move(double dt,double t_end,double p,trajectory_planner& planner);
+    void move(double dt,double t_end,double p, planner::trajectory_planner& planner);
 
 
     // Get Methods
@@ -54,4 +62,6 @@ private:
     double dz_;
 };
 
-#endif /* robot_hpp */
+// #endif /* robot_hpp */
+
+} /* machine */

@@ -16,12 +16,14 @@
 #include <iomanip>
 
 
+namespace machine
+{
 
 robot::robot(double x,double y,double z,double dx,double dy,double dz)
 : x_(x), y_(y), z_(z), dx_(dx), dy_(dy), dz_(dz) {}
 
 void robot::move(double dt,double t_end,double p,
-                 trajectory_planner& planner)
+                 planner::trajectory_planner& planner)
 {
 
     double d_pos;
@@ -87,4 +89,6 @@ void robot::SetVelocity(double dx, double dy, double dz)
   dx_ = dx;
   dy_ = dy;
   dz_ = dz;
+}
+
 }

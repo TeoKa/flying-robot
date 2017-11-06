@@ -6,14 +6,18 @@
 //  Copyright © 2016 Matteo Ciocca. All rights reserved.
 //
 
-#ifndef trajectory_planning_hpp
-#define trajectory_planning_hpp
+// #ifndef trajectory_planning_hpp
+// #define trajectory_planning_hpp
+
+#pragma once
 
 #include <stdio.h>
 #include <iostream>
 
 
-using namespace std;
+
+namespace planner
+{
 
 class trajectory_planner {
 
@@ -56,4 +60,7 @@ private:
 };
 
 
-#endif /* trajectory_planning_hpp */
+// #endif /* trajectory_planning_hpp */
+
+
+} /* planner */

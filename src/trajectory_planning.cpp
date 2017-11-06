@@ -16,6 +16,9 @@
 #include <iomanip>
 
 
+namespace planner
+{
+
 
 trajectory_planner::trajectory_planner() : xi_(0), yi_(0), zi_(0),
                                            xf_(0), yf_(0), zf_(0) {}
@@ -101,3 +104,5 @@ void trajectory_planner::SetXYZf(double x, double y, double z)
   yf_ = y;
   zf_ = z;
 }
+
+} /* planner */
