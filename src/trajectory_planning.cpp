@@ -6,7 +6,7 @@
 //  Copyright © 2016 Matteo Ciocca. All rights reserved.
 //
 
-#include "trajectory_planning.hpp"
+#include "trajectory_planning.h"
 
 
 

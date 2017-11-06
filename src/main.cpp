@@ -7,9 +7,9 @@
 //
 
 
-
-#include "robot.hpp"
-#include "trajectory_planning.hpp"
+#include "logger.h"
+#include "robot.h"
+#include "trajectory_planning.h"
 
 #include <iostream>
 #include <cmath>
@@ -24,18 +24,6 @@
 // [2] Siciliano, Bruno, et al. Robotics: modelling, planning and control. Springer Science & Business Media, 2010.
 
 
-// Dispaly the position of the flying machine.
-void display(machine::robot& flying_machine,double t_current){
-
-    // Display robot's status and more
-    std::cout<<std::setprecision(3)<< "x  : " << flying_machine.x()
-                         << " y : " << flying_machine.y()
-                         << " z : "<<flying_machine.z();
-    std::cout<<std::setprecision(3)<< " | abs_vel: " << flying_machine.absVelocity()
-                         <<" | time : " << t_current << "\n";
-
-    return;
-}
 
 int main(int argc, const char * argv[]) {
 
@@ -83,7 +71,7 @@ int main(int argc, const char * argv[]) {
 
     std::cout << "Max Velocity: " << v_max << " | Time Step: " << dt << "\n";
     std::cout << "Flying machine state: " << "\n";
-    display(flying_machine,0);
+    visualization::display(flying_machine, 0);
 
 
     // Begin of the simulation
@@ -141,7 +129,7 @@ int main(int argc, const char * argv[]) {
         while(t_current < t_end)
         {
             flying_machine.move(t_current,t_end,p,planner);
-            display(flying_machine,t_current);
+            visualization::display(flying_machine,t_current);
             t_current += dt;
         }
 

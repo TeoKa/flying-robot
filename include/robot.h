@@ -15,7 +15,7 @@
 /* #ifndef robot_hpp
    #define robot_hpp */
 
-#include "trajectory_planning.hpp"
+#include "trajectory_planning.h"
 
 #include <stdio.h>
 #include <iostream>

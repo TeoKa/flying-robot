@@ -6,8 +6,8 @@
 //  Copyright © 2016 Matteo Ciocca. All rights reserved.
 //
 
-#include "robot.hpp"
-#include "trajectory_planning.hpp"
+#include "robot.h"
+#include "trajectory_planning.h"
 
 
 #include <iostream>
